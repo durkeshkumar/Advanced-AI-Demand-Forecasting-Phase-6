@@ -1,0 +1,10 @@
+venv/
+node_modules/
+__pycache__/
+.env
+dist/
+build/
+*.pyc
+forecast_report.pdf
+forecast_report.xlsx
+uploads/
