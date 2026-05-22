@@ -1,16 +1,40 @@
-import { useContext } from 'react'
-import { Navigate } from 'react-router-dom'
-import { AuthContext } from '../context/AuthContext'
+import { Navigate } from "react-router-dom";
 
-function ProtectedRoute({ children }) {
 
-  const { token } = useContext(AuthContext)
+export default function ProtectedRoute({
 
-  if (!token) {
-    return <Navigate to='/' />
-  }
+children,
 
-  return children
+allowedRoles
+
+}){
+
+const role =
+
+localStorage.getItem(
+"userRole"
+);
+
+
+if(
+
+!allowedRoles.includes(
+role
+)
+
+){
+
+return(
+
+<Navigate
+to="/dashboard"
+/>
+
+);
+
 }
 
-export default ProtectedRoute
+
+return children;
+
+}

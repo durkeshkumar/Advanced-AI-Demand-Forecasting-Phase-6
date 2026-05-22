@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database.connection import SessionLocal
 
-from app.models.user_model import User
+from app.models.user import User
 from app.models.dataset_model import Dataset
 from app.models.forecast_history import ForecastHistory
 from app.models.notification import Notification

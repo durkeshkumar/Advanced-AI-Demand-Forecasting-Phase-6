@@ -1,6 +1,4 @@
 from pydantic import BaseModel
-from pydantic import EmailStr
-
 from typing import Optional
 
 
@@ -8,7 +6,7 @@ class RegisterSchema(BaseModel):
 
     name:str
 
-    email:EmailStr
+    email:str
 
     password:str
 
@@ -18,6 +16,6 @@ class RegisterSchema(BaseModel):
 
 class LoginSchema(BaseModel):
 
-    email:EmailStr
+    email:str
 
     password:str

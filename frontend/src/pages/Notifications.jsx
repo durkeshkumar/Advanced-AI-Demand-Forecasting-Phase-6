@@ -1,38 +1,83 @@
+import { useEffect, useState } from "react";
+
 import Sidebar from "../components/layout/Sidebar";
 
 import {
-FaBell,
-FaCheckCircle,
-FaExclamationTriangle,
-FaFileAlt
-} from "react-icons/fa";
+FaBell
+}
+from "react-icons/fa";
+
+import {
+getLiveNotifications
+}
+from "../services/liveNotificationService";
+
+
 
 export default function Notifications(){
 
-const notifications=[
 
-{
-icon:<FaCheckCircle/>,
-title:"Forecast Completed",
-message:"Linear Regression prediction generated successfully",
-time:"2 mins ago"
-},
 
-{
-icon:<FaExclamationTriangle/>,
-title:"Dataset Upload Failed",
-message:"Missing values detected in uploaded dataset",
-time:"10 mins ago"
-},
+const [
 
-{
-icon:<FaFileAlt/>,
-title:"Report Generated",
-message:"Forecast report exported successfully",
-time:"30 mins ago"
-}
+notifications,
+setNotifications
 
 ]
+
+=
+
+useState([]);
+
+
+
+
+
+useEffect(()=>{
+
+loadNotifications();
+
+
+const interval=
+
+setInterval(()=>{
+
+loadNotifications();
+
+},4000);
+
+
+
+return()=>clearInterval(
+interval
+);
+
+},[]);
+
+
+
+
+
+
+
+function loadNotifications(){
+
+const data=
+
+getLiveNotifications();
+
+setNotifications(
+data
+);
+
+}
+
+
+
+
+
+
+
 
 return(
 
@@ -47,17 +92,46 @@ to-purple-200
 
 <Sidebar/>
 
+
 <div className="
 flex-1
 p-8
+overflow-auto
 ">
 
-<h1 className="
+
+
+
+<div className="
+flex
+items-center
+gap-4
+mb-10
+">
+
+<div className="
+bg-purple-700
+text-white
+p-5
+rounded-3xl
 text-4xl
+shadow-xl
+animate-pulse
+">
+
+<FaBell/>
+
+</div>
+
+
+<div>
+
+<h1 className="
+text-5xl
 font-bold
 ">
 
-Notifications
+Notification Center
 
 </h1>
 
@@ -66,19 +140,34 @@ text-gray-500
 mt-2
 ">
 
-Recent system updates
+Real-time system alerts and business notifications
 
 </p>
 
+</div>
+
+</div>
+
+
+
+
+
+
+
+
 
 <div className="
-space-y-6
-mt-10
+space-y-5
 ">
 
-{notifications.map((item,index)=>(
+{
+
+notifications.map(
+
+(item,index)=>(
 
 <div
+
 key={index}
 
 className="
@@ -86,60 +175,66 @@ bg-white
 rounded-3xl
 shadow-xl
 p-6
-flex
-gap-6
-items-start
-hover:-translate-y-1
+border-l-8
+border-purple-700
+hover:scale-[1.01]
 transition
+duration-300
 "
 
 >
 
 <div className="
-text-purple-700
-text-3xl
+flex
+items-center
+gap-4
 ">
 
-{item.icon}
+<div className="
+bg-purple-700
+text-white
+p-4
+rounded-2xl
+text-2xl
+">
+
+<FaBell/>
 
 </div>
+
+
+
 
 
 <div>
 
 <h2 className="
+text-xl
 font-bold
-text-lg
 ">
 
-{item.title}
+Live Notification
 
 </h2>
 
 <p className="
 text-gray-500
-mt-2
+mt-1
 ">
 
 {item.message}
 
 </p>
 
-<p className="
-text-sm
-text-gray-400
-mt-3
-">
-
-{item.time}
-
-</p>
+</div>
 
 </div>
 
 </div>
 
-))}
+))
+
+}
 
 </div>
 

@@ -7,7 +7,9 @@ import WelcomeBanner from "../components/WelcomeBanner";
 import RevenueChart from "../components/charts/RevenueChart";
 import PerformanceChart from "../components/PerformanceChart";
 
-import { getDashboardData }
+import {
+getDashboardData
+}
 from "../services/analyticsService";
 
 import {
@@ -23,14 +25,41 @@ FaFileAlt
 }
 from "react-icons/fa";
 
+import {
+useTheme
+}
+from "../context/ThemeContext";
+
 
 export default function Dashboard(){
 
-const navigate=useNavigate();
 
-const[showNotifications,
-setShowNotifications]
+const {
+
+theme
+
+}
+
 =
+
+useTheme();
+
+
+
+const role =
+localStorage.getItem(
+"userRole"
+) || "Viewer";
+
+
+const navigate=
+useNavigate();
+
+
+const[
+showNotifications,
+setShowNotifications
+]=
 useState(false);
 
 
@@ -38,7 +67,10 @@ const notifications=
 getNotifications();
 
 
-const [dashboardData,setDashboardData]=
+const[
+dashboardData,
+setDashboardData
+]=
 useState({
 
 total_sales:0,
@@ -50,11 +82,31 @@ top_products:[]
 });
 
 
+
+
+
 useEffect(()=>{
 
 loadDashboard();
 
+
+const interval=
+
+setInterval(()=>{
+
+loadDashboard();
+
+},5000);
+
+
+return()=>clearInterval(
+interval
+);
+
 },[]);
+
+
+
 
 
 
@@ -65,11 +117,16 @@ await getDashboardData();
 
 if(data){
 
-setDashboardData(data);
+setDashboardData(
+data
+);
 
 }
 
 }
+
+
+
 
 
 
@@ -99,6 +156,9 @@ value:"18"
 
 
 
+
+
+
 const actions=[
 
 {
@@ -123,18 +183,45 @@ path:"/reports"
 
 
 
+
+
+
 return(
 
-<div className="
+<div
+
+className={
+
+theme==="dark"
+
+?
+
+`
+flex
+min-h-screen
+bg-gray-900
+text-white
+`
+
+:
+
+`
 flex
 min-h-screen
 bg-gradient-to-br
 from-purple-100
 via-white
 to-purple-200
-">
+`
+
+}
+
+>
 
 <Sidebar/>
+
+
+
 
 
 <div className="
@@ -143,6 +230,11 @@ p-8
 overflow-auto
 relative
 ">
+
+
+
+
+
 
 <div className="
 flex
@@ -161,16 +253,59 @@ Dashboard
 
 </h1>
 
-<p className="
+
+
+<p className={
+
+theme==="dark"
+
+?
+
+`
+text-gray-300
+mt-2
+flex
+items-center
+`
+
+:
+
+`
 text-gray-500
 mt-2
+flex
+items-center
+`
+
+}
+
+>
+
+Live Analytics Dashboard | Role: {role}
+
+<span className="
+ml-4
+bg-green-500
+text-white
+text-sm
+px-3
+py-1
+rounded-full
+animate-pulse
 ">
 
-Live Analytics Dashboard
+LIVE
+
+</span>
 
 </p>
 
 </div>
+
+
+
+
+
 
 
 <div
@@ -183,14 +318,37 @@ setShowNotifications(
 
 }
 
-className="
+className={
+
+theme==="dark"
+
+?
+
+`
+bg-gray-800
+shadow-lg
+rounded-full
+p-4
+cursor-pointer
+relative
+hover:scale-105
+transition
+`
+
+:
+
+`
 bg-white
 shadow-lg
 rounded-full
 p-4
 cursor-pointer
 relative
-"
+hover:scale-105
+transition
+`
+
+}
 
 >
 
@@ -219,11 +377,38 @@ rounded-full
 
 
 
+
+
+
+
+
 {
 
 showNotifications &&
 
-<div className="
+<div
+
+className={
+
+theme==="dark"
+
+?
+
+`
+absolute
+top-24
+right-10
+bg-gray-800
+shadow-2xl
+rounded-3xl
+p-5
+w-80
+z-50
+`
+
+:
+
+`
 absolute
 top-24
 right-10
@@ -233,7 +418,11 @@ rounded-3xl
 p-5
 w-80
 z-50
-">
+`
+
+}
+
+>
 
 <h2 className="
 font-bold
@@ -256,12 +445,29 @@ notifications.map(
 
 key={index}
 
-className="
+className={
+
+theme==="dark"
+
+?
+
+`
+bg-gray-700
+rounded-xl
+p-4
+mb-3
+`
+
+:
+
+`
 bg-purple-50
 rounded-xl
 p-4
 mb-3
-"
+`
+
+}
 
 >
 
@@ -279,7 +485,17 @@ mb-3
 
 
 
+
+
+
+
+
 <WelcomeBanner/>
+
+
+
+
+
 
 
 <div className="
@@ -289,12 +505,38 @@ gap-6
 mt-10
 ">
 
-<div className="
+
+
+
+
+
+<div
+
+className={
+
+theme==="dark"
+
+?
+
+`
+bg-gray-800
+rounded-3xl
+shadow-xl
+p-6
+`
+
+:
+
+`
 bg-white
 rounded-3xl
 shadow-xl
 p-6
-">
+`
+
+}
+
+>
 
 <h2 className="
 font-bold
@@ -307,23 +549,47 @@ Revenue Momentum
 </h2>
 
 <RevenueChart
-
 data={
 dashboardData.monthly_sales
 }
-
 />
 
 </div>
 
 
 
-<div className="
+
+
+
+
+
+<div
+
+className={
+
+theme==="dark"
+
+?
+
+`
+bg-gray-800
+rounded-3xl
+shadow-xl
+p-6
+`
+
+:
+
+`
 bg-white
 rounded-3xl
 shadow-xl
 p-6
-">
+`
+
+}
+
+>
 
 <h2 className="
 font-bold
@@ -336,16 +602,19 @@ Signature Performance
 </h2>
 
 <PerformanceChart
-
 products={
 dashboardData.top_products
 }
-
 />
 
 </div>
 
 </div>
+
+
+
+
+
 
 
 
@@ -356,24 +625,61 @@ gap-6
 mt-10
 ">
 
-{cards.map((item,index)=>(
+{
+
+cards.map(
+
+(item,index)=>(
 
 <div
 
 key={index}
 
-className="
+className={
+
+theme==="dark"
+
+?
+
+`
+bg-gray-800
+rounded-3xl
+shadow-xl
+p-6
+hover:scale-105
+transition
+`
+
+:
+
+`
 bg-white
 rounded-3xl
 shadow-xl
 p-6
-"
+hover:scale-105
+transition
+`
+
+}
 
 >
 
-<p className="
-text-gray-500
-">
+<p className={
+
+theme==="dark"
+
+?
+
+"text-gray-300"
+
+:
+
+"text-gray-500"
+
+}
+
+>
 
 {item.title}
 
@@ -392,9 +698,16 @@ mt-3
 
 </div>
 
-))}
+))
+
+}
 
 </div>
+
+
+
+
+
 
 
 
@@ -405,14 +718,20 @@ gap-6
 mt-10
 ">
 
-{actions.map((item,index)=>(
+{
+
+actions.map(
+
+(item,index)=>(
 
 <div
 
 key={index}
 
 onClick={()=>
-navigate(item.path)
+navigate(
+item.path
+)
 }
 
 className="
@@ -447,10 +766,11 @@ font-bold
 
 </div>
 
-))}
+))
+
+}
 
 </div>
-
 
 </div>
 

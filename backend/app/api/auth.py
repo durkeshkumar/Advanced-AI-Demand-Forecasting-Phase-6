@@ -1,10 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
-
-from app.models.user_model import User
+from app.models.user import User
 
 from app.schemas.auth_schema import (
     RegisterSchema,
@@ -18,12 +16,12 @@ from app.core.security import (
 )
 
 router = APIRouter(
-    prefix='/auth',
-    tags=['Authentication']
+    prefix="/auth",
+    tags=["Authentication"]
 )
 
 
-@router.post('/register')
+@router.post("/register")
 def register(
     user: RegisterSchema,
     db: Session = Depends(get_db)
@@ -37,7 +35,7 @@ def register(
 
         raise HTTPException(
             status_code=400,
-            detail='Email already exists'
+            detail="Email already exists"
         )
 
     hashed_password = hash_password(
@@ -45,9 +43,15 @@ def register(
     )
 
     new_user = User(
+
         name=user.name,
+
         email=user.email,
-        password=hashed_password
+
+        password=hashed_password,
+
+        role=user.role
+
     )
 
     db.add(new_user)
@@ -57,11 +61,14 @@ def register(
     db.refresh(new_user)
 
     return {
-        'message': 'User registered successfully'
+
+        "message":
+        "User registered successfully"
+
     }
 
 
-@router.post('/login')
+@router.post("/login")
 def login(
     user: LoginSchema,
     db: Session = Depends(get_db)
@@ -75,7 +82,7 @@ def login(
 
         raise HTTPException(
             status_code=400,
-            detail='Invalid email'
+            detail="Invalid Email"
         )
 
     valid_password = verify_password(
@@ -87,14 +94,28 @@ def login(
 
         raise HTTPException(
             status_code=400,
-            detail='Invalid password'
+            detail="Invalid Password"
         )
 
     token = create_access_token({
-        'sub': existing_user.email
+
+        "sub":
+        existing_user.email
+
     })
 
     return {
-        'access_token': token,
-        'token_type': 'bearer'
+
+        "access_token":
+        token,
+
+        "token_type":
+        "bearer",
+
+        "role":
+        existing_user.role,
+
+        "name":
+        existing_user.name
+
     }

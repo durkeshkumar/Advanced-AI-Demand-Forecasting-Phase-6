@@ -1,151 +1,173 @@
-import { useState } from 'react'
+import { useState } from "react";
+import axios from "axios";
 
-import { Link, useNavigate } from 'react-router-dom'
+export default function Register(){
 
-import api from '../services/api'
+const [name,setName]=useState("");
+const [email,setEmail]=useState("");
+const [password,setPassword]=useState("");
+const [role,setRole]=useState("Viewer");
 
-function Register() {
+async function handleRegister(){
 
-  const navigate = useNavigate()
+try{
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  })
+const response = await axios.post(
 
-  const handleChange = (e) => {
+"http://127.0.0.1:8000/auth/register",
 
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  const handleSubmit = async (e) => {
-
-    e.preventDefault()
-
-    try {
-
-      await api.post(
-        '/auth/register',
-        formData
-      )
-
-      alert(
-        'Registration Successful'
-      )
-
-      navigate('/')
-
-    } catch (error) {
-
-      alert(
-        error.response.data.detail
-      )
-    }
-  }
-
-  return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950'>
-
-      <div className='w-[450px] bg-white rounded-3xl shadow-2xl p-10'>
-
-        <div className='text-center mb-8'>
-
-          <h1 className='text-4xl font-bold text-slate-800'>
-            Create Account
-          </h1>
-
-          <p className='text-slate-500 mt-2'>
-            Register for AI Forecasting Platform
-          </p>
-
-        </div>
-
-        <form
-          onSubmit={handleSubmit}
-          className='space-y-5'
-        >
-
-          <div>
-
-            <label className='block mb-2 text-slate-700 font-medium'>
-              Full Name
-            </label>
-
-            <input
-              type='text'
-              name='name'
-              value={formData.name}
-              onChange={handleChange}
-              placeholder='Enter your name'
-              className='w-full border border-slate-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500'
-            />
-
-          </div>
-
-          <div>
-
-            <label className='block mb-2 text-slate-700 font-medium'>
-              Email
-            </label>
-
-            <input
-              type='email'
-              name='email'
-              value={formData.email}
-              onChange={handleChange}
-              placeholder='Enter your email'
-              className='w-full border border-slate-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500'
-            />
-
-          </div>
-
-          <div>
-
-            <label className='block mb-2 text-slate-700 font-medium'>
-              Password
-            </label>
-
-            <input
-              type='password'
-              name='password'
-              value={formData.password}
-              onChange={handleChange}
-              placeholder='Enter password'
-              className='w-full border border-slate-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500'
-            />
-
-          </div>
-
-          <button
-            type='submit'
-            className='w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition duration-300 font-semibold'
-          >
-            Register
-          </button>
-
-        </form>
-
-        <p className='text-center mt-6 text-slate-600'>
-
-          Already have an account?
-
-          <Link
-            to='/'
-            className='text-blue-600 font-semibold ml-2'
-          >
-            Login
-          </Link>
-
-        </p>
-
-      </div>
-
-    </div>
-  )
+{
+name:name,
+email:email,
+password:password,
+role:role
 }
 
-export default Register
+);
+
+console.log(response.data);
+
+alert("Registration successful");
+
+localStorage.clear();
+
+window.location.href="/";
+
+}
+catch(error){
+
+console.log(
+error.response?.data || error
+);
+
+alert(
+"Registration failed"
+);
+
+}
+
+}
+
+return(
+
+<div className="
+min-h-screen
+flex
+items-center
+justify-center
+bg-gradient-to-br
+from-purple-100
+via-white
+to-purple-200
+">
+
+<div className="
+bg-white
+rounded-3xl
+shadow-xl
+p-10
+w-96
+">
+
+<h1 className="
+text-3xl
+font-bold
+text-center
+mb-8
+">
+
+Register
+
+</h1>
+
+<input
+type="text"
+placeholder="Name"
+value={name}
+onChange={(e)=>setName(e.target.value)}
+className="
+w-full
+border
+rounded-xl
+p-4
+mb-4
+"
+/>
+
+<input
+type="email"
+placeholder="Email"
+value={email}
+onChange={(e)=>setEmail(e.target.value)}
+className="
+w-full
+border
+rounded-xl
+p-4
+mb-4
+"
+/>
+
+<input
+type="password"
+placeholder="Password"
+value={password}
+onChange={(e)=>setPassword(e.target.value)}
+className="
+w-full
+border
+rounded-xl
+p-4
+mb-4
+"
+/>
+
+<select
+value={role}
+onChange={(e)=>setRole(e.target.value)}
+className="
+w-full
+border
+rounded-xl
+p-4
+mb-6
+"
+>
+
+<option value="Viewer">
+Viewer
+</option>
+
+<option value="Analyst">
+Analyst
+</option>
+
+<option value="Super Admin">
+Super Admin
+</option>
+
+</select>
+
+<button
+onClick={handleRegister}
+className="
+w-full
+bg-purple-700
+text-white
+p-4
+rounded-xl
+hover:bg-purple-800
+"
+>
+
+Register
+
+</button>
+
+</div>
+
+</div>
+
+)
+
+}

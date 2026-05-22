@@ -5,12 +5,15 @@ import ForecastChart from "../components/charts/ForecastChart";
 import ModelComparison from "../components/ModelComparison";
 import ForecastHistory from "../components/ForecastHistory";
 
-import { generateForecast }
-from "../services/forecastService";
+import {
+addNotification
+}
+from "../services/notificationService";
 
-addNotification(
-"Dataset uploaded successfully"
-);
+import {
+generateForecast
+}
+from "../services/forecastService";
 
 
 export default function Forecast(){
@@ -34,15 +37,18 @@ confidence:"High"
 });
 
 
+
 async function handleForecast(){
 
 setLoading(true);
+
 
 const response=
 
 await generateForecast({
 
 model:model,
+
 days:Number(days)
 
 });
@@ -52,8 +58,10 @@ setTimeout(()=>{
 
 if(response){
 
-    addNotification(
+addNotification(
+
 "Forecast generated successfully"
+
 );
 
 setResult({
@@ -107,7 +115,6 @@ Forecast Center
 
 </h1>
 
-
 <p className="
 text-gray-500
 mt-2
@@ -152,6 +159,7 @@ Select Model
 
 </label>
 
+
 <select
 
 value={model}
@@ -172,15 +180,21 @@ mb-6
 >
 
 <option>
+
 Linear Regression
+
 </option>
 
 <option>
+
 Random Forest
+
 </option>
 
 <option>
+
 Prophet
+
 </option>
 
 </select>
@@ -194,6 +208,7 @@ font-semibold
 Forecast Days
 
 </label>
+
 
 <input
 
@@ -253,6 +268,7 @@ loading
 </button>
 
 </div>
+
 
 
 
@@ -333,6 +349,7 @@ Confidence:
 
 
 
+
 <div className="
 bg-white
 rounded-3xl
@@ -352,10 +369,13 @@ Prediction Graph
 </h2>
 
 <ForecastChart
+
 days={days || 7}
+
 />
 
 </div>
+
 
 
 

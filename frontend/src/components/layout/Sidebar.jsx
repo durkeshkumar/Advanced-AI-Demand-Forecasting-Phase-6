@@ -1,256 +1,550 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
+
 FaHome,
 FaUpload,
 FaChartLine,
 FaBell,
 FaFileAlt,
 FaUserShield,
-FaBars,
-FaSignOutAlt
+FaServer,
+FaHistory,
+FaChartPie,
+FaBrain,
+FaSignOutAlt,
+FaClipboardList,
+FaUsers,
+FaBalanceScale,
+FaDatabase
+
 }
 from "react-icons/fa";
 
 import {
-Link,
-useLocation,
-useNavigate
+useTheme
 }
-from "react-router-dom";
+from "../../context/ThemeContext";
+
+
 
 export default function Sidebar(){
 
-const location=useLocation();
 
-const navigate=useNavigate();
+const {
 
-const [open,setOpen]=useState(true);
+theme,
+toggleTheme
 
-const menus=[
+}
+
+=
+
+useTheme();
+
+
+
+
+const role =
+
+localStorage.getItem(
+"userRole"
+)
+
+||
+
+"Viewer";
+
+
+
+
+
+
+function handleLogout(){
+
+localStorage.clear();
+
+window.location.href="/";
+
+}
+
+
+
+
+
+
+
+
+const menuItems=[
 
 {
-name:"Dashboard",
+title:"Dashboard",
 path:"/dashboard",
-icon:<FaHome/>
-},
-
-{
-name:"Upload",
-path:"/upload",
-icon:<FaUpload/>
-},
-
-{
-name:"Forecast",
-path:"/forecast",
-icon:<FaChartLine/>
-},
-
-{
-name:"Notifications",
-path:"/notifications",
-icon:<FaBell/>
-},
-
-{
-name:"Reports",
-path:"/reports",
-icon:<FaFileAlt/>
-},
-
-{
-name:"Admin",
-path:"/admin",
-icon:<FaUserShield/>
-}
-
+icon:<FaHome/>,
+roles:[
+"Viewer",
+"Analyst",
+"Super Admin"
 ]
+},
 
+{
+title:"Upload",
+path:"/upload",
+icon:<FaUpload/>,
+roles:[
+"Super Admin"
+]
+},
 
-function logout(){
+{
+title:"Forecast",
+path:"/forecast",
+icon:<FaChartLine/>,
+roles:[
+"Analyst",
+"Super Admin"
+]
+},
 
-localStorage.removeItem("token");
+{
+title:"Analytics",
+path:"/analytics",
+icon:<FaChartPie/>,
+roles:[
+"Analyst",
+"Super Admin"
+]
+},
 
-navigate("/");
+{
+title:"AI Insights",
+path:"/insights",
+icon:<FaBrain/>,
+roles:[
+"Analyst",
+"Super Admin"
+]
+},
 
+{
+title:"History",
+path:"/history",
+icon:<FaHistory/>,
+roles:[
+"Analyst",
+"Super Admin"
+]
+},
+
+{
+title:"Comparison",
+path:"/comparison",
+icon:<FaBalanceScale/>,
+roles:[
+"Analyst",
+"Super Admin"
+]
+},
+
+{
+title:"Reports",
+path:"/reports",
+icon:<FaFileAlt/>,
+roles:[
+"Analyst",
+"Super Admin"
+]
+},
+
+{
+title:"Notifications",
+path:"/notifications",
+icon:<FaBell/>,
+roles:[
+"Super Admin"
+]
+},
+
+{
+title:"Datasets",
+path:"/datasets",
+icon:<FaDatabase/>,
+roles:[
+"Super Admin"
+]
+},
+
+{
+title:"Monitoring",
+path:"/monitoring",
+icon:<FaServer/>,
+roles:[
+"Super Admin"
+]
+},
+
+{
+title:"Activity Logs",
+path:"/logs",
+icon:<FaClipboardList/>,
+roles:[
+"Super Admin"
+]
+},
+
+{
+title:"Users",
+path:"/users",
+icon:<FaUsers/>,
+roles:[
+"Super Admin"
+]
+},
+
+{
+title:"Admin",
+path:"/admin",
+icon:<FaUserShield/>,
+roles:[
+"Super Admin"
+]
 }
+
+];
+
+
+
+
+
+
+
+
 
 
 return(
 
-<div className={`
+<div className={
 
-${
-open
+theme==="dark"
+
 ?
-"w-64"
-:
-"w-20"
-}
 
-h-screen
+`
+w-72
+min-h-screen
+bg-gray-950
+text-white
+p-6
+flex
+flex-col
+justify-between
+shadow-2xl
+`
+
+:
+
+`
+w-72
+min-h-screen
 bg-purple-900
 text-white
 p-6
-transition-all
-duration-500
-relative
+flex
+flex-col
+justify-between
+shadow-2xl
+`
 
-`}>
-
-<div
-
-onClick={()=>setOpen(!open)}
-
-className="
-absolute
-right-4
-top-5
-bg-purple-700
-p-3
-rounded-xl
-cursor-pointer
-"
+}
 
 >
 
-<FaBars/>
-
-</div>
 
 
+
+
+
+<div>
 
 <h1 className="
 text-3xl
 font-bold
 mb-10
-mt-10
+tracking-wide
 ">
 
-{open?"Forecastly AI":"AI"}
+AI Forecast
 
 </h1>
 
 
 
-<div className="
-space-y-4
-">
 
-{menus.map((item,index)=>(
 
-<Link
 
-to={item.path}
 
-key={index}
 
-className={`
 
-flex
-items-center
-gap-4
-p-4
-rounded-xl
-transition
+<div className={
 
-${
-location.pathname===item.path
+theme==="dark"
 
 ?
 
-"bg-white text-purple-900"
+`
+bg-gray-800
+rounded-2xl
+p-4
+mb-8
+shadow-lg
+`
 
 :
 
-"hover:bg-purple-700"
+`
+bg-purple-800
+rounded-2xl
+p-4
+mb-8
+shadow-lg
+`
 
 }
-
-`}
 
 >
 
-{item.icon}
+<p className="
+text-gray-300
+text-sm
+">
 
-{
+Logged in as
 
-open &&
+</p>
 
-<span>
+<h2 className="
+font-bold
+text-lg
+mt-1
+">
 
-{item.name}
+{role}
 
-</span>
-
-}
-
-</Link>
-
-))}
+</h2>
 
 </div>
 
 
 
-<button
 
-onClick={logout}
 
-className="
-absolute
-bottom-24
-left-6
-bg-red-500
-hover:bg-red-600
-rounded-xl
-p-4
-w-44
+
+
+
+
+
+
+
+<div className="
+space-y-3
+">
+
+{
+
+menuItems
+
+.filter(
+
+(item)=>
+
+item.roles.includes(
+role
+)
+
+)
+
+.map(
+
+(item,index)=>(
+
+<Link
+
+key={index}
+
+to={item.path}
+
+className={
+
+theme==="dark"
+
+?
+
+`
 flex
 items-center
+gap-4
+p-4
+rounded-2xl
+hover:bg-gray-800
+transition
+duration-300
+hover:translate-x-1
+`
+
+:
+
+`
+flex
+items-center
+gap-4
+p-4
+rounded-2xl
+hover:bg-purple-700
+transition
+duration-300
+hover:translate-x-1
+`
+
+}
+
+>
+
+<div className="
+text-xl
+">
+
+{item.icon}
+
+</div>
+
+
+<span className="
+font-medium
+">
+
+{item.title}
+
+</span>
+
+</Link>
+
+))
+
+}
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div>
+
+<button
+
+onClick={toggleTheme}
+
+className={
+
+theme==="light"
+
+?
+
+`
+w-full
+bg-white
+text-purple-900
+hover:bg-gray-200
+transition
+duration-300
+p-4
+rounded-2xl
+font-bold
+mb-4
+shadow-lg
+`
+
+:
+
+`
+w-full
+bg-gray-800
+text-white
+hover:bg-gray-700
+transition
+duration-300
+p-4
+rounded-2xl
+font-bold
+mb-4
+shadow-lg
+`
+
+}
+
+>
+
+{
+
+theme==="light"
+
+?
+
+"Dark Mode"
+
+:
+
+"Light Mode"
+
+}
+
+</button>
+
+
+
+
+
+
+
+
+<button
+
+onClick={handleLogout}
+
+className="
+w-full
+bg-red-500
+hover:bg-red-600
+transition
+duration-300
+p-4
+rounded-2xl
+font-bold
+flex
+items-center
+justify-center
 gap-3
+shadow-lg
 "
 
 >
 
 <FaSignOutAlt/>
 
-{open && "Logout"}
+Logout
 
 </button>
-
-
-
-<div className="
-absolute
-bottom-1
-left-6
-bg-purple-700
-rounded-2xl
-p-4
-w-42
-">
-
-<p className="
-font-bold
-">
-
-Durkesh
-
-</p>
-
-{open&&(
-
-<p className="
-text-sm
-">
-
-AI Developer
-
-</p>
-
-)}
 
 </div>
 

@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import Sidebar from "../components/layout/Sidebar";
 
+import GlobalSearch from "../components/GlobalSearch";
+
 import {
 FaHistory,
 FaChartLine
@@ -11,14 +13,8 @@ from "react-icons/fa";
 
 export default function ForecastHistory(){
 
-
-const [search,setSearch]=
+const [search,setSearch] =
 useState("");
-
-const [filter,setFilter]=
-useState("All");
-
-
 
 const history=[
 
@@ -56,15 +52,9 @@ status:"Processing"
 
 ];
 
+const filteredHistory =
 
-
-
-
-const filteredHistory=
-
-history.filter((item)=>{
-
-const matchesSearch=
+history.filter((item)=>
 
 item.product
 .toLowerCase()
@@ -73,25 +63,9 @@ item.product
 
 search.toLowerCase()
 
+)
+
 );
-
-
-const matchesFilter=
-
-filter==="All"
-
-||
-
-item.status===filter;
-
-
-return matchesSearch && matchesFilter;
-
-});
-
-
-
-
 
 
 
@@ -118,12 +92,10 @@ overflow-auto
 
 
 
-
 <div className="
 flex
 items-center
 gap-4
-mb-8
 ">
 
 <div className="
@@ -164,102 +136,17 @@ Historical forecasting activity and tracking
 </div>
 
 
+<div className="mb-8">
 
+<GlobalSearch
 
+search={search}
 
-
-
-
-<div className="
-flex
-gap-4
-mb-8
-">
-
-<input
-
-type="text"
-
-placeholder="Search Forecast..."
-
-value={search}
-
-onChange={(e)=>
-
-setSearch(
-e.target.value
-)
-
-}
-
-className="
-border
-p-4
-rounded-2xl
-w-80
-bg-white
-shadow-lg
-outline-none
-"
+setSearch={setSearch}
 
 />
 
-
-
-
-
-<select
-
-value={filter}
-
-onChange={(e)=>
-
-setFilter(
-e.target.value
-)
-
-}
-
-className="
-border
-p-4
-rounded-2xl
-bg-white
-shadow-lg
-outline-none
-"
-
->
-
-<option value="All">
-
-All
-
-</option>
-
-<option value="Completed">
-
-Completed
-
-</option>
-
-<option value="Processing">
-
-Processing
-
-</option>
-
-</select>
-
 </div>
-
-
-
-
-
-
-
-
 
 
 <div className="
@@ -267,6 +154,7 @@ bg-white
 rounded-3xl
 shadow-xl
 p-6
+mt-10
 ">
 
 <h2 className="
@@ -278,8 +166,6 @@ mb-6
 Recent Forecast Records
 
 </h2>
-
-
 
 
 
@@ -310,8 +196,6 @@ transition
 "
 
 >
-
-
 
 
 
@@ -365,10 +249,6 @@ Prediction:
 
 
 
-
-
-
-
 <div className="
 flex
 items-center
@@ -400,8 +280,6 @@ text-green-600
 
 
 
-
-
 <div>
 
 <p className="
@@ -422,8 +300,6 @@ font-bold
 </h2>
 
 </div>
-
-
 
 
 

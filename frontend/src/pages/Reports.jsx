@@ -1,9 +1,14 @@
+import { useState } from "react";
+
 import Sidebar from "../components/layout/Sidebar";
 
+import GlobalSearch from "../components/GlobalSearch";
+
 import {
+FaFileAlt,
+FaDownload,
 FaFilePdf,
-FaFileExcel,
-FaDownload
+FaFileExcel
 }
 from "react-icons/fa";
 
@@ -15,6 +20,12 @@ from "../services/reportService";
 
 
 export default function Reports(){
+
+
+const [search,setSearch] =
+useState("");
+
+
 
 const reports=[
 
@@ -37,6 +48,29 @@ type:"PDF"
 }
 
 ];
+
+
+
+
+
+const filteredReports =
+
+reports.filter((item)=>
+
+item.name
+.toLowerCase()
+
+.includes(
+
+search.toLowerCase()
+
+)
+
+);
+
+
+
+
 
 
 return(
@@ -79,12 +113,19 @@ Analytics reports and downloads
 
 
 
+
+
+
+
 <div className="
 grid
 md:grid-cols-3
 gap-6
 mt-10
 ">
+
+
+
 
 <div
 
@@ -131,9 +172,12 @@ Forecast PDF exports
 
 
 
+
+
+
+
+
 <div
-
-
 
 onClick={downloadExcel}
 
@@ -175,6 +219,11 @@ Spreadsheet analytics
 </p>
 
 </div>
+
+
+
+
+
 
 
 
@@ -227,12 +276,34 @@ Export summaries
 
 
 
+
+
+
+<div className="mb-8 mt-10">
+
+<GlobalSearch
+
+search={search}
+
+setSearch={setSearch}
+
+/>
+
+</div>
+
+
+
+
+
+
+
+
+
 <div className="
 bg-white
 rounded-3xl
 shadow-xl
 p-6
-mt-10
 ">
 
 <h2 className="
@@ -246,11 +317,17 @@ Recent Reports
 </h2>
 
 
+
+
+
+
 <div className="
 space-y-5
 ">
 
-{reports.map((item,index)=>(
+{
+
+filteredReports.map((item,index)=>(
 
 <div
 
@@ -288,6 +365,10 @@ text-gray-500
 </div>
 
 
+
+
+
+
 <button
 
 onClick={downloadReport}
@@ -310,7 +391,9 @@ Download
 
 </div>
 
-))}
+))
+
+}
 
 </div>
 

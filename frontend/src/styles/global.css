@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  background: #071028;
+  color: white;
+  font-family: Inter, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.glass-card {
+  background: rgba(17, 25, 40, 0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+}
+
+.sidebar-item {
+  transition: 0.3s;
+}
+
+.sidebar-item:hover {
+  background: rgba(255,255,255,0.08);
+}
