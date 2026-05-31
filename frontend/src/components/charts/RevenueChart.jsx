@@ -1,58 +1,59 @@
+import React, { memo } from "react";
+
 import {
-AreaChart,
-Area,
-XAxis,
-YAxis,
-ResponsiveContainer,
-Tooltip
-}
-from "recharts";
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Tooltip
+} from "recharts";
 
 
-export default function RevenueChart({
+function RevenueChart({ data }) {
 
-data=[]
+  return (
 
-}){
+    <div className="
+      w-full
+      h-[250px]
+    ">
 
-return(
+      <ResponsiveContainer
+        width="100%"
+        height="100%"
+      >
 
-<div className="
-w-full
-h-[250px]
-">
+        <AreaChart
+          data={data}
+        >
 
-<ResponsiveContainer
-width="100%"
-height="100%"
->
+          <XAxis
+            dataKey="month"
+          />
 
-<AreaChart
-data={data}
->
+          <YAxis />
 
-<XAxis
-dataKey="month"
-/>
+          <Tooltip />
 
-<YAxis/>
+          <Area
+            type="monotone"
+            dataKey="sales"
+            stroke="#9333ea"
+            fill="#e9d5ff"
+            strokeWidth={4}
+          />
 
-<Tooltip/>
+        </AreaChart>
 
-<Area
-type="monotone"
-dataKey="sales"
-stroke="#9333ea"
-fill="#e9d5ff"
-strokeWidth={4}
-/>
+      </ResponsiveContainer>
 
-</AreaChart>
+    </div>
 
-</ResponsiveContainer>
-
-</div>
-
-)
+  );
 
 }
+
+export default memo(
+  RevenueChart
+);

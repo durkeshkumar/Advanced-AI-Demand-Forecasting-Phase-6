@@ -20,28 +20,29 @@ dashboard_cache = TTLCache(
 
 
 # -----------------------------------
-# DASHBOARD ANALYTICS API
+# DASHBOARD ANALYTICS
 # -----------------------------------
 
 @router.get("/dashboard")
-
 def get_dashboard_data():
 
-    # --------------------------------
-    # RETURN CACHED RESPONSE
-    # --------------------------------
+    # -----------------------------
+    # RETURN CACHE IF AVAILABLE
+    # -----------------------------
 
     if "dashboard" in dashboard_cache:
 
-        print("CACHE RESPONSE")
+        return {
 
-        return dashboard_cache["dashboard"]
+            "source": "cache",
 
-    # --------------------------------
+            "data": dashboard_cache["dashboard"]
+
+        }
+
+    # -----------------------------
     # MOCK ANALYTICS DATA
-    # --------------------------------
-
-    print("FRESH RESPONSE")
+    # -----------------------------
 
     data = {
 
@@ -83,28 +84,44 @@ def get_dashboard_data():
         "top_products": [
 
             {
-                "name": "Laptop",
-                "sales": 540
+                "product": "Laptop",
+                "sales": 1200
             },
 
             {
-                "name": "Mobile",
-                "sales": 420
+                "product": "Mobile",
+                "sales": 950
             },
 
             {
-                "name": "Tablet",
-                "sales": 300
+                "product": "Tablet",
+                "sales": 700
+            },
+
+            {
+                "product": "Smart Watch",
+                "sales": 500
+            },
+
+            {
+                "product": "Headphones",
+                "sales": 350
             }
 
         ]
 
     }
 
-    # --------------------------------
-    # STORE RESPONSE IN CACHE
-    # --------------------------------
+    # -----------------------------
+    # STORE IN CACHE
+    # -----------------------------
 
     dashboard_cache["dashboard"] = data
 
-    return data
+    return {
+
+        "source": "database",
+
+        "data": data
+
+    }

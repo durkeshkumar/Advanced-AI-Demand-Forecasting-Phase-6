@@ -1,34 +1,36 @@
-import axios from "axios";
+import API from "./api";
 
-const API_URL="http://127.0.0.1:8000";
 
 export async function getDashboardData(){
 
-try{
+  try{
 
-const response=await axios.get(
-`${API_URL}/analytics/dashboard`
-);
+    const response =
+    await API.get(
+      "/analytics/dashboard"
+    );
 
-return response.data;
+    return response.data;
 
-}
+  }
 
-catch(error){
+  catch(error){
 
-console.log(
-"Dashboard API Error:",
-error
-);
+    console.log(
+      "Dashboard API Error:",
+      error
+    );
 
-return{
+    return{
 
-total_sales:0,
-total_products:0,
-highest_sales:0
+      total_sales:0,
+      total_products:0,
+      highest_sales:0,
+      monthly_sales:[],
+      top_products:[]
 
-};
+    };
 
-}
+  }
 
 }

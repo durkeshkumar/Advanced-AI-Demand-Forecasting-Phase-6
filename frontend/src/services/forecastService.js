@@ -1,31 +1,35 @@
-import axios from "axios";
+import API from "./api";
 
-const API_URL="http://127.0.0.1:8000";
 
 export async function generateForecast(data){
 
-try{
+  try{
 
-const response=await axios.post(
+    const response =
+    await API.post(
 
-`${API_URL}/forecast/predict`,
-data
+      "/forecast/predict",
 
-);
+      data
 
-return response.data;
+    );
 
-}
+    return response.data;
 
-catch(error){
+  }
 
-console.log(
-"Forecast Error",
-error
-);
+  catch(error){
 
-return null;
+    console.log(
 
-}
+      "Forecast Error",
+
+      error
+
+    );
+
+    return null;
+
+  }
 
 }

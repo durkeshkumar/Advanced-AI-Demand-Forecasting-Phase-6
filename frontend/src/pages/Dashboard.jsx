@@ -21,7 +21,8 @@ import {
 FaBell,
 FaUpload,
 FaChartLine,
-FaFileAlt
+FaFileAlt,
+FaDownload
 }
 from "react-icons/fa";
 
@@ -30,9 +31,30 @@ useTheme
 }
 from "../context/ThemeContext";
 
+import {
+
+downloadDashboardPDF,
+downloadDashboardExcel
+
+}
+from "../services/reportService";
+
+import Modal from "../components/common/Modal";
+
+import Table from "../components/common/Table";
+
 
 export default function Dashboard(){
 
+const [
+showModal,
+setShowModal
+] = useState(false);
+
+const [
+loading,
+setLoading
+] = useState(true);
 
 const {
 
@@ -62,6 +84,12 @@ setShowNotifications
 ]=
 useState(false);
 
+const [showRevenue,setShowRevenue] =
+useState(true);
+
+const [showPerformance,setShowPerformance] =
+useState(true);
+
 
 const notifications=
 getNotifications();
@@ -81,7 +109,11 @@ top_products:[]
 
 });
 
-
+const[
+selectedKPI,
+setSelectedKPI
+]=
+useState(null);
 
 
 
@@ -109,28 +141,48 @@ interval
 
 
 
-
 async function loadDashboard(){
 
-const data=
+try{
+
+setLoading(true);
+
+const response =
 await getDashboardData();
 
-if(data){
+if(response){
+
+if(response.data){
 
 setDashboardData(
-data
+response.data
+);
+
+}else{
+
+setDashboardData(
+response
 );
 
 }
 
 }
 
+}catch(error){
+
+console.log(error);
+
+}finally{
+
+setLoading(false);
+
+}
+
+}
 
 
 
-
-
-const cards=[
+const cards = [
 
 {
 title:"Total Sales",
@@ -138,18 +190,18 @@ value:`₹${dashboardData.total_sales}`
 },
 
 {
-title:"Products",
-value:dashboardData.total_products
+title:"Forecast Accuracy",
+value:"96%"
 },
 
 {
-title:"Highest Sales",
-value:dashboardData.highest_sales
+title:"Revenue Prediction",
+value:"₹2,40,000"
 },
 
 {
-title:"Reports",
-value:"18"
+title:"Active Datasets",
+value:"12"
 }
 
 ];
@@ -182,7 +234,26 @@ path:"/reports"
 ];
 
 
+if(loading){
 
+return(
+
+<div className="
+flex
+justify-center
+items-center
+h-screen
+text-2xl
+font-bold
+">
+
+Loading Dashboard...
+
+</div>
+
+)
+
+}
 
 
 
@@ -492,7 +563,79 @@ mb-3
 
 <WelcomeBanner/>
 
+<button
 
+onClick={()=>
+setShowModal(true)
+}
+
+className="
+bg-purple-600
+text-white
+px-4
+py-2
+rounded-lg
+mt-4
+"
+
+>
+
+Test Modal
+
+</button>
+
+
+<div className="
+flex
+gap-6
+mt-6
+mb-6
+">
+
+<label className="
+flex
+items-center
+gap-2
+font-medium
+">
+
+<input
+type="checkbox"
+checked={showRevenue}
+onChange={()=>
+setShowRevenue(
+!showRevenue
+)
+}
+/>
+
+Revenue Widget
+
+</label>
+
+
+<label className="
+flex
+items-center
+gap-2
+font-medium
+">
+
+<input
+type="checkbox"
+checked={showPerformance}
+onChange={()=>
+setShowPerformance(
+!showPerformance
+)
+}
+/>
+
+Performance Widget
+
+</label>
+
+</div>
 
 
 
@@ -505,10 +648,9 @@ gap-6
 mt-10
 ">
 
+{
 
-
-
-
+showRevenue &&
 
 <div
 
@@ -556,12 +698,15 @@ dashboardData.monthly_sales
 
 </div>
 
+}
 
 
 
 
 
+{
 
+showPerformance &&
 
 <div
 
@@ -603,13 +748,16 @@ Signature Performance
 
 <PerformanceChart
 products={
-dashboardData.top_products
+dashboardData.top_products || []
 }
 />
 
 </div>
 
+}
+
 </div>
+
 
 
 
@@ -635,6 +783,10 @@ cards.map(
 
 key={index}
 
+onClick={()=>
+setSelectedKPI(item)
+}
+
 className={
 
 theme==="dark"
@@ -657,6 +809,7 @@ bg-white
 rounded-3xl
 shadow-xl
 p-6
+cursor-pointer
 hover:scale-105
 transition
 `
@@ -704,11 +857,145 @@ mt-3
 
 </div>
 
+<div className="
+flex
+gap-4
+mt-8
+mb-8
+">
+
+<button
+onClick={downloadDashboardPDF}
+className="
+bg-red-600
+text-white
+px-5
+py-3
+rounded-xl
+hover:bg-red-700
+transition
+"
+>
+
+Download PDF Summary
+
+</button>
+
+<button
+onClick={downloadDashboardExcel}
+className="
+bg-green-600
+text-white
+px-5
+py-3
+rounded-xl
+hover:bg-green-700
+transition
+"
+>
+
+Download Excel Summary
+
+</button>
+
+</div>
 
 
+{
 
+selectedKPI &&
 
+<div
 
+className={
+
+theme==="dark"
+
+?
+
+`
+bg-gray-800
+rounded-3xl
+shadow-xl
+p-6
+mt-8
+`
+
+:
+
+`
+bg-white
+rounded-3xl
+shadow-xl
+p-6
+mt-8
+`
+
+}
+
+>
+
+<h2 className="
+text-2xl
+font-bold
+mb-4
+">
+
+{selectedKPI.title} Details
+
+</h2>
+
+<p>
+
+Selected KPI:
+{selectedKPI.value}
+
+</p>
+
+<p className="mt-2">
+
+Detailed analytics can be displayed here.
+
+</p>
+
+</div>
+
+}
+
+<Table
+
+columns={[
+
+"Product",
+"Sales"
+
+]}
+
+data={[
+
+{
+product:"Laptop",
+sales:1200
+},
+
+{
+product:"Mobile",
+sales:950
+},
+
+{
+product:"Tablet",
+sales:700
+},
+
+{
+product:"Smart Watch",
+sales:500
+}
+
+]}
+
+/>
 
 
 <div className="
@@ -772,8 +1059,27 @@ font-bold
 
 </div>
 
-</div>
+<Modal
 
+isOpen={showModal}
+
+title="Dashboard Modal"
+
+onClose={()=>
+setShowModal(false)
+}
+
+>
+
+<p>
+
+Reusable Modal Working Successfully
+
+</p>
+
+</Modal>
+
+</div>
 </div>
 
 )

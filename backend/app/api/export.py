@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
 
+import pandas as pd
 import csv
 
 
@@ -10,8 +11,11 @@ router = APIRouter(
 )
 
 
-@router.get("/analytics-csv")
+# -----------------------------------
+# ANALYTICS CSV EXPORT
+# -----------------------------------
 
+@router.get("/analytics-csv")
 def export_analytics_csv():
 
     filename = "analytics_report.csv"
@@ -45,5 +49,96 @@ def export_analytics_csv():
         filename=filename,
 
         media_type="text/csv"
+
+    )
+
+
+# -----------------------------------
+# DASHBOARD EXCEL EXPORT
+# -----------------------------------
+
+@router.get("/dashboard-excel")
+def download_dashboard_excel():
+
+    data = {
+
+        "Metric": [
+
+            "Total Sales",
+            "Forecast Accuracy",
+            "Revenue Prediction",
+            "Active Datasets"
+
+        ],
+
+        "Value": [
+
+            "125000",
+            "96%",
+            "240000",
+            "12"
+
+        ]
+
+    }
+
+    df = pd.DataFrame(data)
+
+    file_name = "dashboard_summary.xlsx"
+
+    df.to_excel(
+        file_name,
+        index=False
+    )
+
+    return FileResponse(
+
+        path=file_name,
+
+        filename=file_name,
+
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+    )
+
+
+# -----------------------------------
+# DASHBOARD PDF EXPORT
+# -----------------------------------
+
+@router.get("/dashboard-pdf")
+def download_dashboard_pdf():
+
+    file_name = "dashboard_summary.pdf"
+
+    with open(file_name, "w") as file:
+
+        file.write(
+            "Advanced AI Demand Forecasting\n\n"
+        )
+
+        file.write(
+            "Total Sales : 125000\n"
+        )
+
+        file.write(
+            "Forecast Accuracy : 96%\n"
+        )
+
+        file.write(
+            "Revenue Prediction : 240000\n"
+        )
+
+        file.write(
+            "Active Datasets : 12\n"
+        )
+
+    return FileResponse(
+
+        path=file_name,
+
+        filename=file_name,
+
+        media_type="application/pdf"
 
     )

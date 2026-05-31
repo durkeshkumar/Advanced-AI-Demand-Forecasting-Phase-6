@@ -1,79 +1,83 @@
-export default function PerformanceChart({
+import React, { memo } from "react";
 
-products=[]
+
+function PerformanceChart({
+
+  products=[]
 
 }){
 
-return(
+  return(
 
-<div className="
-space-y-6
-">
+    <div className="
+      space-y-6
+    ">
 
-{
+      {
 
-products.map(
-(item,index)=>(
+        products.map(
+          (item,index)=>(
 
-<div
-key={index}
->
+            <div
+              key={index}
+            >
 
-<div className="
-flex
-justify-between
-mb-2
-">
+              <div className="
+                flex
+                justify-between
+                mb-2
+              ">
 
-<p>
+                <p>
+                  {item.product}
+                </p>
 
-{item.product}
+                <p>
+                  {item.sales}
+                </p>
 
-</p>
+              </div>
 
-<p>
+              <div className="
+                bg-gray-200
+                h-4
+                rounded-full
+              ">
 
-{item.sales}
+                <div
 
-</p>
+                  style={{
 
-</div>
+                    width:
+                    `${item.sales}px`
 
-<div className="
-bg-gray-200
-h-4
-rounded-full
-">
+                  }}
 
-<div
+                  className="
+                    bg-purple-600
+                    h-4
+                    rounded-full
+                  "
 
-style={{
+                >
 
-width:
-`${item.sales}px`
+                </div>
 
-}}
+              </div>
 
-className="
-bg-purple-600
-h-4
-rounded-full
-"
+            </div>
 
->
+          )
+        )
 
-</div>
+      }
 
-</div>
+    </div>
 
-</div>
-
-))
-
-}
-
-</div>
-
-)
+  );
 
 }
+
+export default memo(
+  PerformanceChart
+);
