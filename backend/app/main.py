@@ -45,6 +45,28 @@ from app.api.background_tasks import router as background_router
 from app.api.async_tasks import router as async_router
 
 from app.api.database_optimization import router as database_router
+
+from app.api.project import router as project_router
+
+from app.models.project import Project
+
+from app.api.project_activity import router as project_activity_router
+
+from app.api.scenario import router as scenario_router
+
+from app.api.business_intelligence import router as business_intelligence_router
+
+from app.api.ai_insights import router as ai_insights_router
+
+from app.api.collaboration import router as collaboration_router
+
+from app.api.dataset_management import router as dataset_management_router
+
+from app.api.forecast_accuracy import router as forecast_accuracy_router
+
+from app.api.executive_reporting import router as executive_reporting_router
+
+from app.api.dashboard_enhancements import router as dashboard_enhancements_router
 # -----------------------------------
 # CREATE DATABASE TABLES
 # -----------------------------------
@@ -112,6 +134,21 @@ app.include_router(background_router)
 app.include_router(async_router)
 app.include_router(database_router)
 
+app.include_router(project_router)
+app.include_router(project_activity_router)
+app.include_router(scenario_router)
+
+app.include_router(business_intelligence_router)
+
+app.include_router(ai_insights_router)
+
+app.include_router(collaboration_router)
+
+app.include_router(dataset_management_router)
+
+app.include_router(forecast_accuracy_router)
+app.include_router(executive_reporting_router)
+app.include_router(dashboard_enhancements_router)
 # -----------------------------------
 # HOME ROUTE
 # -----------------------------------

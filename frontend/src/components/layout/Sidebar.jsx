@@ -16,8 +16,8 @@ FaSignOutAlt,
 FaClipboardList,
 FaUsers,
 FaBalanceScale,
-FaDatabase
-
+FaDatabase,
+FaComments
 }
 from "react-icons/fa";
 
@@ -81,6 +81,49 @@ const menuItems=[
 title:"Dashboard",
 path:"/dashboard",
 icon:<FaHome/>,
+roles:[
+"Viewer",
+"Analyst",
+"Super Admin"
+]
+},
+{
+title:"Workspace",
+path:"/workspace",
+icon:<FaDatabase/>,
+roles:[
+"Viewer",
+"Analyst",
+"Super Admin"
+]
+},
+
+{
+title:"Executive Dashboard",
+path:"/executive-dashboard",
+icon:<FaChartPie/>,
+roles:[
+"Viewer",
+"Analyst",
+"Super Admin"
+]
+},
+
+{
+title:"Scenario Analysis",
+path:"/scenario-analysis",
+icon:<FaChartLine/>,
+roles:[
+"Viewer",
+"Analyst",
+"Super Admin"
+]
+},
+
+{
+title:"Collaboration",
+path:"/collaboration",
+icon:<FaComments/>,
 roles:[
 "Viewer",
 "Analyst",

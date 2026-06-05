@@ -35,6 +35,13 @@ import ForecastComparison from "../pages/ForecastComparison";
 
 import DatasetManagement from "../pages/DatasetManagement";
 
+import ForecastWorkspace from "../pages/ForecastWorkspace";
+
+import ExecutiveDashboard from "../pages/ExecutiveDashboard";
+
+import ScenarioAnalysis from "../pages/ScenarioAnalysis";
+
+import Collaboration from "../pages/Collaboration";
 export default function AppRoutes(){
 
 return(
@@ -42,8 +49,25 @@ return(
 <Routes>
 
 
+<Route
+path="/workspace"
+element={<ForecastWorkspace/>}
+/>
 
+<Route
+path="/executive-dashboard"
+element={<ExecutiveDashboard/>}
+/>
 
+<Route
+path="/scenario-analysis"
+element={<ScenarioAnalysis/>}
+/>
+
+<Route
+path="/collaboration"
+element={<Collaboration/>}
+/>
 
 <Route
 path="/"
