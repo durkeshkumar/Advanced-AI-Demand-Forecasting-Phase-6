@@ -128,7 +128,7 @@ setInterval(()=>{
 
 loadDashboard();
 
-},5000);
+},50000);
 
 
 return()=>clearInterval(

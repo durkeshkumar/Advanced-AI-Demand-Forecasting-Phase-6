@@ -17,7 +17,13 @@ FaClipboardList,
 FaUsers,
 FaBalanceScale,
 FaDatabase,
-FaComments
+FaComments,
+
+FaBuilding,
+FaCheckCircle,
+FaBullseye,
+FaShieldAlt
+
 }
 from "react-icons/fa";
 
@@ -76,6 +82,7 @@ window.location.href="/";
 
 
 const menuItems=[
+
 
 {
 title:"Dashboard",
@@ -199,6 +206,44 @@ roles:[
 "Super Admin"
 ]
 },
+{
+title:"Organizations",
+path:"/organizations",
+icon:<FaBuilding/>,
+roles:[
+"Super Admin"
+]
+},
+
+{
+title:"Approval Workflow",
+path:"/approval-workflow",
+icon:<FaCheckCircle/>,
+roles:[
+"Analyst",
+"Super Admin"
+]
+},
+
+{
+title:"Strategic Planning",
+path:"/strategic-planning",
+icon:<FaBullseye/>,
+roles:[
+"Analyst",
+"Super Admin"
+]
+},
+
+{
+title:"Governance Center",
+path:"/governance-center",
+icon:<FaShieldAlt/>,
+roles:[
+"Super Admin"
+]
+},
+
 
 {
 title:"Notifications",

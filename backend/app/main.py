@@ -67,6 +67,26 @@ from app.api.forecast_accuracy import router as forecast_accuracy_router
 from app.api.executive_reporting import router as executive_reporting_router
 
 from app.api.dashboard_enhancements import router as dashboard_enhancements_router
+
+from app.api.organization_management import router as organization_router
+
+from app.api.forecast_approval import router as forecast_approval_router
+
+from app.api.workflow_automation import router as workflow_router
+
+from app.api.strategic_planning import router as strategic_planning_router
+
+from app.api.forecast_governance import router as forecast_governance_router
+
+from app.api.kpi_management import router as kpi_management_router
+
+from app.api.data_quality import router as data_quality_router
+
+from app.api.executive_command_center import router as executive_command_router
+
+from app.api.notification_center import router as notification_center_router
+
+from app.api.audit_logs import router as audit_router
 # -----------------------------------
 # CREATE DATABASE TABLES
 # -----------------------------------
@@ -149,6 +169,26 @@ app.include_router(dataset_management_router)
 app.include_router(forecast_accuracy_router)
 app.include_router(executive_reporting_router)
 app.include_router(dashboard_enhancements_router)
+
+app.include_router(organization_router)
+
+app.include_router(forecast_approval_router)
+
+app.include_router(workflow_router)
+
+app.include_router(strategic_planning_router)
+
+app.include_router(forecast_governance_router)
+
+app.include_router(kpi_management_router)
+
+app.include_router(data_quality_router)
+
+app.include_router(executive_command_router)
+
+app.include_router(notification_center_router)
+
+app.include_router(audit_router)
 # -----------------------------------
 # HOME ROUTE
 # -----------------------------------

@@ -42,12 +42,40 @@ import ExecutiveDashboard from "../pages/ExecutiveDashboard";
 import ScenarioAnalysis from "../pages/ScenarioAnalysis";
 
 import Collaboration from "../pages/Collaboration";
+
+import OrganizationManagement from "../pages/OrganizationManagement";
+
+import ApprovalWorkflow from "../pages/ApprovalWorkflow";
+
+import StrategicPlanning from "../pages/StrategicPlanning";
+
+import GovernanceCenter from "../pages/GovernanceCenter";
+
 export default function AppRoutes(){
 
 return(
 
 <Routes>
 
+<Route
+path="/governance-center"
+element={<GovernanceCenter/>}
+/>
+
+<Route
+path="/strategic-planning"
+element={<StrategicPlanning/>}
+/>
+
+<Route
+path="/approval-workflow"
+element={<ApprovalWorkflow/>}
+/>
+
+<Route
+path="/organizations"
+element={<OrganizationManagement/>}
+/>
 
 <Route
 path="/workspace"
